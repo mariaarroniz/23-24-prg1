@@ -2,7 +2,7 @@ package ejercicios.caracol;
 
 import java.util.Scanner;
 
-class UnCaracolTernario {
+class UnCaracolIf {
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
@@ -28,28 +28,44 @@ class UnCaracolTernario {
             dia++;
             System.out.println("Dia " + dia);
 
-            subidaMaxima = dia > 20 ? 2 : dia > 10 ? 3 : 4;
+            if (dia > 20) {
+                subidaMaxima = 2;
+            } else if (dia > 10) {
+                subidaMaxima = 3;
+            } else {
+                subidaMaxima = 4;
+            }
 
             double probabilidadClima = Math.random();
-            profundidadAgua = profundidadAgua - (probabilidadClima < 0.05 ? 5 : probabilidadClima < 0.15 ? 2 : 0);
+            if (probabilidadClima < 0.05) {
+                profundidadAgua = profundidadAgua - 5;
+            } else if (probabilidadClima < 0.15) {
+                profundidadAgua = profundidadAgua - 2;
+            }
             System.out.println("La profundidad del agua es " + profundidadAgua);
 
-            profundidadCaracol = profundidadCaracol > profundidadAgua ? profundidadAgua : profundidadCaracol;
+            if (profundidadCaracol > profundidadAgua) {
+                profundidadCaracol = profundidadAgua;
+            }
 
             double caracolSube = Math.random() * (subidaMaxima - subidaMinima) + subidaMinima;
             System.out.println("El caracol sube: " + caracolSube);
 
             profundidadCaracol = profundidadCaracol - caracolSube;
 
-            estaDentro = profundidadCaracol > 0 ? true : false;
+            if (profundidadCaracol > 0) {
+                estaDentro = true;
+            } else {
+                estaDentro = false;
+            }
 
             if (estaDentro) {
                 double caracolBaja = Math.random() * (bajadaMaxima - bajadaMinima) + bajadaMinima;
                 System.out.println("El caracol baja: " + caracolBaja);
                 profundidadCaracol = profundidadCaracol + caracolBaja;
 
-                boolean pasaCoche = Math.random() < PROBABILIDAD_COCHE ? true : false;
-                if (pasaCoche) {
+                double pasaCoche = Math.random();
+                if (pasaCoche < PROBABILIDAD_COCHE) {
                     System.out.println("Pasa un coche");
                     profundidadCaracol = profundidadCaracol + 2;
                 }
@@ -58,11 +74,26 @@ class UnCaracolTernario {
             System.out.println("Al final del dia está en " + profundidadCaracol);
             inputUsuario = scanner.nextLine();
 
-            estaVivo = dia >= 50 ? false : true;
+            if (dia >= 50) {
+                estaVivo = false;
+            } else {
+                estaVivo = true;
+            }
         }
 
-        String estadoCaracol = estaVivo ? "vivo" : "muerto";
-        estadoCaracol = estadoCaracol + " y " + (estaDentro ? "dentro" : "fuera");
+        String estadoCaracol;
+
+        if (estaVivo) {
+            estadoCaracol = "vivo";
+        } else {
+            estadoCaracol = "muerto";
+        }
+
+        if (estaDentro) {
+            estadoCaracol = estadoCaracol + " y dentro";
+        } else {
+            estadoCaracol = estadoCaracol + " y fuera";
+        }
 
         System.out.println("La simulacion ha terminado");
         System.out.println("El caracol al final esta " + estadoCaracol);
